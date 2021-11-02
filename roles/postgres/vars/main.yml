@@ -1,17 +1,20 @@
 ---
 postgres_rhel7_repo: "https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
 postgres_rhel8_repo: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+rh_upstream_repo: rhel-8-for-x86_64-appstream-rpms
+postgres_version: 12
 postgres_packages:
-  - postgresql12
-  - postgresql12-server
-  - postgresql12-contrib
-  - postgresql12-libs
+  - postgresql{{ postgres_version }}
+  - postgresql{{ postgres_version }}-server
+  - postgresql{{ postgres_version }}-contrib
+  - postgresql{{ postgres_version }}-libs
 postgres_library: python-psycopg2
 postgres_12_data_dir: /var/lib/pgsql/12/data
 postgres_12_bin_path: /usr/pgsql-12/bin
 postgres_service: postgresql-12.service
 postgres_port: 5432
 postgres_user: postgres
+postgres_root: root
 postgres_users:
   - name: flask
     password: redhat

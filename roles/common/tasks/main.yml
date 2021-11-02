@@ -1,0 +1,67 @@
+---
+# tasks file for roles/common
+#
+- name: Gather network facts
+  setup:
+    gather_subset:
+      - 'network'
+  delegate_facts: true
+  delegate_to: localhost
+  connection: local
+
+- name: DNS IP updated
+  community.general.nmcli:
+    conn_name: eth0
+    type: ethernet
+    dns4:
+      - 192.168.50.73
+      - 192.168.50.74
+      - 192.168.50.75
+# Hay que hacer que borre los anteriores
+    dns4_search:
+      - example.com
+    state: present
+
+  register: network_update  
+
+  become: yes
+  become_user: root
+
+- name: DNS Search Domain
+  community.general.nmcli:
+    conn_name: eth0
+    dns4_search:
+      - example.com
+    state: present
+
+  register: network_update
+
+  become: yes
+  become_user: root
+
+- name: restart network manager
+  service:
+    name: NetworkManager
+    state: restarted
+  when: network_update.changed | bool
+
+  become: yes
+  become_user: root
+
+- name: install katello-ca-consumer package
+  yum:
+    name: "{{ satellite_katello_cert }}" 
+    state: present
+    disable_gpg_check: true
+
+  become: yes
+  become_user: root
+
+
+- name: register system and attach subs
+  redhat_subscription:
+    state: present
+    activationkey: "{{ satellite_activationkey }}"
+    org_id: "{{ satellite_org }}"
+    auto_attach: true
+    rhsm_baseurl: "{{ satellite_url }}"

@@ -1,12 +1,12 @@
 [load_balancers]
-frontend1  ansible_ssh_host=frontend1."{{ GUID }}".internal
+frontend1  ansible_ssh_host=frontend1."{{ GUID }}".internal ansible_ssh_host=192.168.51.20
 
 [app_servers]
-app1  ansible_ssh_host=app1."{{ GUID }}".internal
-app2  ansible_ssh_host=app2."{{ GUID }}".internal
+app1  ansible_ssh_host=app1."{{ GUID }}".internal ansible_ssh_host=192.168.51.19
+app2  ansible_ssh_host=app2."{{ GUID }}".internal ansible_ssh_host=192.168.51.18
 
 [database_servers]
-appdb1 ansible_ssh_host=appdb1."{{ GUID }}".internal
+appdb1 ansible_ssh_host=appdb1."{{ GUID }}".internal ansible_ssh_host=192.168.51.12
 
 [internal:children]
 load_balancers
@@ -15,3 +15,5 @@ database_servers
 
 [all:vars]
 GUID="{{ lookup('env', 'GUID') }}"
+#ansible_ssh_private_key_file=~/.ssh/"{{ GUID }}"key.pem
+ansible_ssh_private_key_file=/home/devops/.ssh/4a0ekey.pem
