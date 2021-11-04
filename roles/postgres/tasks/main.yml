@@ -1,11 +1,4 @@
 ---
-- name: Install Postgres Repo
-  yum: 
-    name= "{{ postgres_rhel8_repo }}"
- 
-  become: yes
-  become_user: "{{ postgres_root }}"
-
 - name: Install Postgres packages
   package:
     name: "{{ __package }}"
