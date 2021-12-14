@@ -1,11 +1,4 @@
 ---
-- hosts: localhost
-  tasks:
-    - debug:
-        msg: play1
-
-    - name: Provide OpenStack instances
-        import_playbook: provide_stack.yml
-
-    - name: Set Roles
-        import_playbook: set_roles.yml
+- import_playbook: provide_stack.yml
+- import_playbook: set_roles.yml
+- import_playbook: smoke_tests.yml

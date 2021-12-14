@@ -6,4 +6,5 @@ ssh_port: 22
 http_ports: 80
 https_ports: 443
 smoke_test_ports: 8080
-
+firewall_services:
+  - sshd
