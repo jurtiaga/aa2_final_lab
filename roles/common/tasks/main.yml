@@ -18,12 +18,16 @@
     - PEERDNS=no
     - DNS1={{ hostvars.localhost.ansible_default_ipv4.address }}
   register: network_update
+  become: yes
+  become_user: root
 
 - name: restart network manager
   service:
     name: NetworkManager
     state: restarted
   when: network_update.changed | bool
+  become: yes
+  become_user: root
 
 - name: install katello-ca-consumer package
   yum:
@@ -43,6 +47,7 @@
     auto_attach: true
     rhsm_baseurl: "{{ satellite_url }}"
     force_register: yes
+    server_insecure: '1'
 
   become: yes
   become_user: root
