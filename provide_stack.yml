@@ -3,17 +3,19 @@
   hosts: localhost
   connection: local
   gather_facts: false
+  vars:
+    guid: "{{ lookup('ENV','GUID') }}"
   tasks:
     - name: Include Instance variables
       include_vars: instances_vars.yml
     
     - name: Debug
       debug:
-        msg: "{{ guid }}-project" 
+        msg: "{{ GUID }}-project" 
 
     - name: Create Instance
       openstack.cloud.server:
-        cloud: "{{ guid }}-project"
+        cloud: "{{ GUID }}-project"
         name: "{{ instance.name }}"
         image: "{{ instance.image }}"
         key_name: "{{ instance.keypair }}"

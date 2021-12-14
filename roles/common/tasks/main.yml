@@ -9,30 +9,21 @@
   delegate_to: localhost
   connection: local
 
-- name: DNS IP updated
-  community.general.nmcli:
-    conn_name: eth0
-    type: ethernet
-    dns4_ignore_auto: yes
-    dns4: 192.168.50.73  
-# Hay que hacer que borre los anteriores
-    dns4_search:
-      - example.com
+- name: Configure Control Node as DNS SERVER
+  lineinfile:
     state: present
-
-  register: network_update  
-
-  become: yes
-  become_user: root
+    path: /etc/sysconfig/network-scripts/ifcfg-eth0
+    line: "{{ item }}"
+  loop:
+    - PEERDNS=no
+    - DNS1={{ hostvars.localhost.ansible_default_ipv4.address }}
+  register: network_update
 
 - name: restart network manager
   service:
     name: NetworkManager
     state: restarted
   when: network_update.changed | bool
-
-  become: yes
-  become_user: root
 
 - name: install katello-ca-consumer package
   yum:
