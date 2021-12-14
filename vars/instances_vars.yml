@@ -10,6 +10,7 @@ instances:
     internal_network: "{{ GUID + '-dev-network' }}"
     metadata:
       AnsibleGroup: osp_instances
+      HostGroup: load_balancers
       deployment_name: dev
 
   - name: app1
@@ -21,6 +22,7 @@ instances:
     metadata:
       AnsibleGroup: osp_instances
       deployment_name: dev
+      HostGroup: app_servers
 
   - name: app2
     image: rhel-8.3
@@ -31,6 +33,7 @@ instances:
     metadata:
       AnsibleGroup: osp_instances
       deployment_name: dev
+      HostGroup: app_servers
 
   - name: appdb1
     keypair: "{{ GUID + '-keypair' }}"
@@ -41,3 +44,4 @@ instances:
     metadata:
       AnsibleGroup: osp_instances
       deployment_name: dev
+      HostGroup: database_servers

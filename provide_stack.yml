@@ -4,7 +4,8 @@
   connection: local
   gather_facts: false
   vars:
-    guid: "{{ lookup('ENV','GUID') }}"
+    GUID : "{{ lookup('ENV','GUID') }}"
+    home : "{{ lookup('ENV','HOME') }}"
   tasks:
     - name: Include Instance variables
       include_vars: instances_vars.yml
@@ -26,6 +27,23 @@
         nics:
           - net-name: "{{ instance.internal_network }}"
         meta: "AnsibleGroup={{instance.metadata.AnsibleGroup}},deployment_name={{instance.metadata.deployment_name}}"
+
       loop: "{{ instances }}"
+      loop_control:
+        loop_var: instance
+     
+    - name: Collection instance info
+      os_server_info:
+        cloud: "{{ GUID }}-project"
+      register: instances
+
+    - name: Build In-Memory inventory
+      add_host:
+        host: "{{ instance.name }}"
+        group: "{{ instance.metadata.HostGroup }}"
+        ansible_host: "{{ instance.private_v4 }}"
+        ssh_private_key_file: "{{ home }}/.ssh/{{ guid }}key.pem"
+      when: instance.metadata.AnsibleGroup == "osp_instances"
+      loop: "{{ instances.openstack_servers }}"
       loop_control:
         loop_var: instance
