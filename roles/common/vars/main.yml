@@ -1,6 +1,10 @@
 ---
 # vars file for roles/common
 #
+
+GUID : "{{ lookup('ENV','GUID') }}"
+home : "{{ lookup('ENV','HOME') }}"
+
 satellite_activationkey: gpte-labs-rhel8
 satellite_org: prod
 satellite_url: satellite.{{ GUID }}.dynamic.opentlc.com

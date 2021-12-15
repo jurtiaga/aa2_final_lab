@@ -1,6 +1,6 @@
 ---
 - name: Configure database servers
-  hosts: app_servers
+  hosts: database_servers
   roles:
     - role: common
-    - role: apps
+    - role: postgres

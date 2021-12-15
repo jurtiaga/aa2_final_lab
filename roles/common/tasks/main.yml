@@ -1,6 +1,12 @@
 ---
 # tasks file for roles/common
 #
+- name: Include Vars
+  include_vars:
+    dir: vars
+    extensions:
+      - 'yml'
+
 - name: Gather network facts
   setup:
     gather_subset:

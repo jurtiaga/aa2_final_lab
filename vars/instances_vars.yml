@@ -1,6 +1,6 @@
 ---
-#GUID: "{{ lookup('env','GUID') }}"
-#guid: "{{ lookup('env','GUID') }}"
+GUID : "{{ lookup('ENV','GUID') }}"
+home : "{{ lookup('ENV','HOME') }}"
 instances:
   - name: frontend1
     keypair: "{{ GUID + '-keypair' }}"
