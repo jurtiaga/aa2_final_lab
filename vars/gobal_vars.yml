@@ -1,0 +1,4 @@
+---
+GUID: "{{ lookup('env','GUID') }}"
+home: "{{ lookup('ENV','HOME') }}"
+
