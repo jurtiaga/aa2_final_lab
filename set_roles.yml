@@ -4,3 +4,8 @@
   roles:
     - role: common
     - role: postgres
+
+- name: Configure apps servers
+  hosts: app_servers
+  roles:
+    - role: common

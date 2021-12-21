@@ -21,16 +21,22 @@
     path: "{{ postgres_12_data_dir }}/PG_VERSION"
   register: r_postgres_init_dir_state
 
+  become: yes
+  become_user: root
+
 - when: not r_postgres_init_dir_state.stat.exists
   name: Run Postgres initdb to initialize if postgres not initialized
-  command: "{{ postgres_12_bin_path }}/postgresql-10-setup initdb"
+  command: "{{ postgres_12_bin_path }}/postgresql-12-setup initdb"
   notify: restart_postgres
+  become: yes
 
 - name: Setup Postgres for remote password auth
   template:
     src: pg_hba.conf.j2
     dest: "{{ postgres_12_data_dir }}/pg_hba.conf"
   notify: restart_postgres
+  become: yes
+  become_user: "{{ postgres_user }}"
 
 - name: Setup Postgres to listen on network interfaces
   lineinfile:
@@ -38,6 +44,9 @@
     line: "listen_addresses = '*'"
     insertafter: "#listen_addresses"
   notify: restart_postgres
+  become: yes
+  become_user: "{{ postgres_user }}"
+
 
 - name: Setup Postgres as started and enabled on boot.
   service:

@@ -7,17 +7,6 @@
     - name: Include Instance variables
       include_vars: instances_vars.yml
     
-    - name: Debug
-      debug:
-        msg: "{{ GUID }}-project" 
-
-    - name: Debug Instance
-      debug:
-        msg: "{{ instance.keypair }}"
-      loop: "{{ instances }}"
-      loop_control:
-        loop_var: instance
-
     - name: Create Instance
       openstack.cloud.server:
         cloud: "{{ GUID }}-project"

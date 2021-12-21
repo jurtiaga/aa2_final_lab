@@ -6,7 +6,7 @@ app_yum_packages:
   - gcc
   - libtool
   - python3
-  - python-psycopg2
+  - python2-psycopg2
 app_root: root
 flask_app_name: resource_hub
 flask_user: flask
