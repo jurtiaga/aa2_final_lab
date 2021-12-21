@@ -51,9 +51,16 @@
     activationkey: "{{ satellite_activationkey }}"
     org_id: "{{ satellite_org }}"
     auto_attach: true
-    rhsm_baseurl: "{{ satellite_url }}"
     force_register: yes
     server_insecure: '1'
+
+  become: yes
+  become_user: root
+
+- name: Install firewalld
+  yum:
+    name: firewalld
+    state: latest
 
   become: yes
   become_user: root

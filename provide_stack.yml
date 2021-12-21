@@ -11,6 +11,13 @@
       debug:
         msg: "{{ GUID }}-project" 
 
+    - name: Debug Instance
+      debug:
+        msg: "{{ instance.keypair }}"
+      loop: "{{ instances }}"
+      loop_control:
+        loop_var: instance
+
     - name: Create Instance
       openstack.cloud.server:
         cloud: "{{ GUID }}-project"
@@ -37,7 +44,7 @@
     - name: Build In-Memory inventory
       add_host:
         host: "{{ instance.name }}"
-        group: "{{ instance.metadata.AnsibleGroup }}"
+        group: "{{ instance.metadata.HostGroup }}"
         ansible_host: "{{ instance.private_v4 }}"
         ssh_private_key_file: "{{ home }}/.ssh/{{ GUID }}key.pem"
       when: instance.metadata.AnsibleGroup == "osp_instances"
