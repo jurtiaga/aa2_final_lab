@@ -53,9 +53,16 @@
     name: "{{ postgres_service }}"
     state: "{{ postgres_service_state | default('started') }}"
     enabled: "{{ postgres_service_enabled | default(true) }}"
+  
+  become: yes
+  become_user: root
 
 - name: Configure Postgres resources, user, database etc
   block:
+    - name: Make sure psycopg2 is installed
+      pip:
+        name: psycopg2
+        state: present
 
     - name: Setup Postgres database(s)
       postgresql_db:
