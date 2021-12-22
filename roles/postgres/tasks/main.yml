@@ -59,7 +59,7 @@
     
     - name: Install pip
       shell: |
-        "{{ ansible_python_interpreter }}" /tmp/get-pip.py
+        /usr/bin/python3 /tmp/get-pip.py
     
     - name: Install python-postgres packages
       pip: "name={{ item }}  state=present"
