@@ -4,3 +4,6 @@
   service:
     name: "{{ postgres_service }}"
     state: restarted
+
+  become: yes
+  become_user: root
