@@ -3,6 +3,7 @@
   user:
     name: "{{ flask_user }}"
     state: present
+  become: yes
 
 - name: Install flask packages
   package:
@@ -11,7 +12,8 @@
   loop: "{{ app_yum_packages }}"
   loop_control:
     loop_var: __package
-
+  become: yes
+  
 - name: "Install flask repo {{ flask_repo }}"
   git:
     repo: "{{ flask_repo }}"
@@ -20,12 +22,14 @@
     force: yes
   tags:
     - git
-
+  become: yes
+  
 - name: "Change flash repo owner to {{ flask_user }} recursively"
   file:
     dest: "{{ flask_home }}/{{ flask_app_name }}"
     owner: "{{ flask_user }}"
-
+  become: yes
+  
 - name: Virtualenv setup
   block:
 
