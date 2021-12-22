@@ -8,9 +8,8 @@ postgres_packages:
   - postgresql{{ postgres_version }}-server
   - postgresql{{ postgres_version }}-contrib
   - postgresql{{ postgres_version }}-libs
-  - python3
-  - python3-pip
 postgres_library: python2-psycopg2
+ansible_python_interpreter: /usr/bin/python3
 postgres_12_data_dir: /var/lib/pgsql/12/data
 postgres_12_bin_path: /usr/pgsql-12/bin
 postgres_service: postgresql-12.service

@@ -7,14 +7,12 @@
     disablerepo: "{{ rh_upstream_repo }}"
 
   loop:
-    - "{{ postgres_library }}"
     - "{{ postgres_rhel8_repo }}"
     - "{{ postgres_packages }}"
   loop_control:
     loop_var: __package
 
   become: yes
-  become_user: "{{ postgres_root }}"
 
 - name: Check if Postgres initialized
   stat:
@@ -22,7 +20,6 @@
   register: r_postgres_init_dir_state
 
   become: yes
-  become_user: root
 
 - when: not r_postgres_init_dir_state.stat.exists
   name: Run Postgres initdb to initialize if postgres not initialized
@@ -36,7 +33,6 @@
     dest: "{{ postgres_12_data_dir }}/pg_hba.conf"
   notify: restart_postgres
   become: yes
-  become_user: "{{ postgres_user }}"
 
 - name: Setup Postgres to listen on network interfaces
   lineinfile:
@@ -45,8 +41,6 @@
     insertafter: "#listen_addresses"
   notify: restart_postgres
   become: yes
-  become_user: "{{ postgres_user }}"
-
 
 - name: Setup Postgres as started and enabled on boot.
   service:
@@ -55,15 +49,28 @@
     enabled: "{{ postgres_service_enabled | default(true) }}"
   
   become: yes
-  become_user: root
 
 - name: Configure Postgres resources, user, database etc
   block:
+    - name: Download pip installer
+      get_url:
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: /tmp/get-pip.py
+    
+    - name: Install pip
+      shell: |
+        "{{ ansible_python_interpreter }}" /tmp/get-pip.py
+    
+    - name: Install python-postgres packages
+      pip: "name={{ item }}  state=present"
+      with_items:
+        - psycopg2-binary
+    
     - name: Make sure psycopg2 is installed
       pip:
-        name: psycopg2
+        name: psycopg2-binary
         state: present
-
+    
     - name: Setup Postgres database(s)
       postgresql_db:
         name: "{{ __database.name }}"
@@ -85,6 +92,7 @@
       loop_control:
         loop_var: __user
       no_log: "{{ postgres_user_no_log_state | default(false) }}"
+
 
   become_user: "{{ postgres_user }}"
 
