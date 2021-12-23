@@ -14,7 +14,7 @@
           username: 857d-user
           password: ZQhejFJI3rri
           project_name: 857d-project        
-          cloud: "{{ GUID }}-project"
+        cloud: "{{ GUID }}-project"
         name: "{{ instance.name }}"
         image: "{{ instance.image }}"
         key_name: "{{ instance.keypair }}"
