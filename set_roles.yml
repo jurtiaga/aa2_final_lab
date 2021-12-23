@@ -1,14 +1,14 @@
 ---
 
 - name: Configure database servers
-  hosts: database_serversAAAAA
+  hosts: database_servers
   gather_facts: false
   roles:
     - role: common
     - role: postgres
 
 - name: Configure apps servers
-  hosts: app_serversAAAAAAAAAAAAA
+  hosts: app_servers
   roles:
     - role: common
     - role: apps

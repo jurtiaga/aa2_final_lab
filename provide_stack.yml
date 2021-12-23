@@ -40,3 +40,8 @@
       loop: "{{ instances.openstack_servers }}"
       loop_control:
         loop_var: instance
+    
+    - name: Wait 300 seconds for OpenStack to Provide Infraestructure
+      wait_for:
+       timeout: 300
+      delegate_to: localhost
