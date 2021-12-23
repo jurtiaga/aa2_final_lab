@@ -8,7 +8,13 @@
     - role: postgres
 
 - name: Configure apps servers
-  hosts: app_servers
+  hosts: app_serversAAAAAAAAAAAAA
   roles:
     - role: common
     - role: apps
+
+- name: Configure load balancers 
+  hosts: load_balancers
+  roles:
+    - role: common
+    - role: haproxy

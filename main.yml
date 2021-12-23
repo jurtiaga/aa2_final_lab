@@ -1,3 +1,4 @@
 ---
 - import_playbook: provide_stack.yml
-- import_playbook: set_roles.yml
+#- import_playbook: set_roles.yml
+- import_playbook: smoke_test.yml
