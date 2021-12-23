@@ -48,6 +48,8 @@
   tags:
     - venv
     - virtualenv
+ 
+  become: true
 
 - name: Initialize flask app database resources
   command: "{{ virtualenv_home }}/{{ flask_app_name }}/bin/python3 {{ flask_home }}/{{ flask_app_name }}/config.py"
@@ -59,11 +61,15 @@
     dest: /usr/local/bin/launch_resource_hub
     mode: '0555'
 
+  become: true
+
 - name: template systemd service config
   template:
     src:  ./files/flask_service.j2
     dest: /etc/systemd/system/{{ flask_app_name }}.service
     mode: '0755'
+
+  become: true
 
 - name: start systemd app service
   systemd:
@@ -71,3 +77,4 @@
     state: restarted
     enabled: yes
 
+  become: true

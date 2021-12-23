@@ -1,7 +1,7 @@
 ---
 
 - name: Configure database servers
-  hosts: database_servers
+  hosts: database_serversAAAAA
   gather_facts: false
   roles:
     - role: common
@@ -11,3 +11,4 @@
   hosts: app_servers
   roles:
     - role: common
+    - role: apps
