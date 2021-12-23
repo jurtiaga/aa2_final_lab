@@ -7,9 +7,14 @@
     - name: Include Instance variables
       include_vars: instances_vars.yml
     
-    - name: Create Instance
+    - name: Create Instances
       openstack.cloud.server:
-        cloud: "{{ GUID }}-project"
+        auth:
+          auth_url: https://api.orange.sc01.infra.opentlc.com:13000//v3
+          username: 857d-user
+          password: ZQhejFJI3rri
+          project_name: 857d-project        
+          cloud: "{{ GUID }}-project"
         name: "{{ instance.name }}"
         image: "{{ instance.image }}"
         key_name: "{{ instance.keypair }}"
@@ -43,5 +48,5 @@
     
     - name: Wait 300 seconds for OpenStack to Provide Infraestructure
       wait_for:
-       timeout: 300
+       timeout: 1
       delegate_to: localhost
